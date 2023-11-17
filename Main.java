@@ -17,17 +17,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //Create a SparkContext to initialize
+        // create a SparkContext to initialize
         SparkConf conf = new SparkConf().setMaster("local").setAppName("Cure Algorithm");
         SparkSession ss =new SparkSession.Builder()
                 .config(conf)
                 .appName("Cure Algorithm").master("local")
                 .getOrCreate();
-         // Create a Java version of the Spark Context
+         // create a Java version of the Spark Context
          JavaSparkContext sc = JavaSparkContext.fromSparkContext(ss.sparkContext());
 
         String files = "src/main/data/*.txt";
-        //System.out.println(files);
+        // system.out.println(files);
         JavaRDD<String> lines = sc.textFile(files);
 
         JavaRDD<Tuple2<Double, Double>> parsedData;
@@ -38,29 +38,28 @@ public class Main {
         JavaPairRDD<Double, Double> pairsRDD = parsedData.mapToPair((line) -> new Tuple2<>(line._1(), line._2()));
 
 
-        //random sampling our data into one java pair rdd
-
+        // random sampling our data into one java pair rdd
         JavaPairRDD<Double, Double> sampledData = pairsRDD.sample(true, 0.001);
         sampledData = sampledData.mapToPair((line) -> new Tuple2<>(line._1(), line._2()));
         sampledData.coalesce(1).saveAsTextFile("resultsjava");
 
 
-        String files2 = "C:\\Users\\dell\\Desktop\\curejavaspark\\src\\main\\java\\predictions.csv";
-        //remove header and broadcast it
+        String files2 = "cure-algorithm\\predictions.csv";
+        // remove header and broadcast it
         JavaRDD<String> lines2 = sc.textFile(files2);
         String header = lines2.first();
         Broadcast<String> bheader = sc.broadcast(header);
         JavaRDD<String> lines2wh = lines2.filter(line -> !line.equals(bheader.value()));
 
-        //create java rdd for prediction file [(x,y),prediction]
+        // create java rdd for prediction file [(x,y),prediction]
         JavaRDD<Tuple2<Tuple2<Double, Double>, Integer>> predictionsfile;
         predictionsfile = lines2wh.map((line) -> line.split(","))
                 .map((line) -> new Tuple2<>(new Tuple2<>(parseDouble(line[1]), parseDouble(line[2])), parseInt(line[3])))
                 .cache();
 
 
-        //create java pair rdd and Group By Cluster the predictionfile rdd
-        //we have a triple (cluster,all the points of these cluster (x,y))
+        // create java pair rdd and Group By Cluster the predictionfile rdd
+        // we have a triple (cluster,all the points of these cluster (x,y))
         JavaPairRDD<Integer, ArrayList<Tuple2<Double, Double>>> finalpredictfile = predictionsfile.groupBy(line -> line._2())
                 .mapValues(line -> {
                     ArrayList<Tuple2<Double, Double>> returnarray = new ArrayList<>();
@@ -71,43 +70,31 @@ public class Main {
                 });
 
 
-        //we calculate the reps (4 reps per cluster)
-        //cluster 1: the four reps
-        //cluster 2: the 4 reps
-        //....
+        // we calculate the reps (4 reps per cluster)
+        // cluster 1: the four reps
+        //c luster 2: the 4 reps
         JavaPairRDD<Integer, ArrayList<Tuple2<Double, Double>>> reps = finalpredictfile.mapValues(list -> representatives(list, 4));
 
-        //cluster 1, the four reps
-        //cluster 1, the four reps
-        //...
+        // cluster 1, the four reps
         JavaPairRDD<Integer,Tuple2<Double,Double>> flatreps= reps.flatMapValues(list -> list);
 
         List<Tuple2<Integer,Tuple2<Double,Double>>> flatrepsserial = flatreps.collect();
 
-        //flatrepserial: cluster 4,[rep]
+        // flatrepserial: cluster 4,[rep]
                          //cluster 4,[rep]
-        //broadcast flatrepsserial
+        // broadcast flatrepsserial
         Broadcast<List<Tuple2<Integer,Tuple2<Double,Double>>>> bflatrepsserial = sc.broadcast(flatrepsserial);
 
-        //in predictions now we have points x,y and prediction for all the dataset
+        // in predictions now we have points x,y and prediction for all the dataset
         JavaPairRDD<Double[],Integer> predictions = parsedData.mapToPair(point -> new Tuple2<Tuple2<Double,Double>,Integer>(point,functclust(point,bflatrepsserial.value())))
                 .mapToPair(row -> new Tuple2<Double[],Integer>(new Double[]{row._1()._1(),row._1()._2()},row._2()));
 
-//############Silhouette#######################
-
-        //Dataset<Row> df = ss.createDataset(JavaPairRDD.toRDD(predictions), Encoders., Encoders.INT()).toDF("features","prediction");
-       // df.show(4);
-
-         //Evaluate clustering by computing Silhouette score
-      //  ClusteringEvaluator evaluator = new ClusteringEvaluator();
-
-       // double silhouette = evaluator.evaluate(df);
-       // System.out.println("Silhouette with squared euclidean distance = " + silhouette);
+        //############Silhouette#######################
         System.out.println("The cure algorithm is done (success)");
 
     }
 
-  //  ###############END OF MAIN#######################
+    //###############END OF MAIN#######################
 
     public static Integer functclust(Tuple2<Double,Double> point, List<Tuple2<Integer,Tuple2<Double,Double>>> reps){
 
@@ -127,11 +114,11 @@ public class Main {
 
     public static ArrayList<Tuple2<Double, Double>> representatives(ArrayList<Tuple2<Double, Double>> points, int numberofrepr) {
 
-        //find the mean of cluster
+        // find the mean of cluster
         Double x = 0.0;
         Double y = 0.0;
 
-        //first repr
+        // first repr
         for (Tuple2<Double, Double> point : points) {
             x += point._1();
             y += point._2();
@@ -150,7 +137,7 @@ public class Main {
         }
         replist.add(maxpoint);
 
-        //for the rest representatives
+        // for the rest representatives
         for (int i=1;i<numberofrepr;i++) {
             Double maxdist2 = 0.0;
             Tuple2<Double, Double> maxpoint2 = null;

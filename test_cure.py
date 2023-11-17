@@ -13,8 +13,6 @@ def distclust(file, c):
 
         listofpoints.append(splitfloat)
 
-
-
     x=[]
     y=[]
     for point in listofpoints:
@@ -30,11 +28,4 @@ def distclust(file, c):
 
     results.to_csv('predictions.csv')
 
-
 distclust("resultsjava",5)
-
-
-
-
-
-
