@@ -28,4 +28,4 @@ def distclust(file, c):
 
     results.to_csv('predictions.csv')
 
-distclust("resultsjava",5)
+distclust("java_results",5)
