@@ -2,6 +2,8 @@
 The CURE (Clustering Using Representatives) algorithm is a hierarchical clustering method designed to efficiently cluster large datasets by iteratively merging data points into representative clusters. It starts by initializing each data point as a separate cluster and assigning a representative point for each cluster. Outliers are then removed to enhance the robustness of the clusters. The algorithm proceeds with hierarchical clustering, iteratively merging the closest clusters until a specified number is reached. After each merge, the representative points and sizes of the clusters are updated. CURE is particularly effective in handling large datasets, accommodating irregularly shaped clusters, and demonstrating robustness to outliers. Its key features include the use of representative points, hierarchical clustering, and a cluster shrinkage step to improve cluster separation. The provided Java implementation of the CURE algorithm allows users to efficiently apply this clustering approach to their datasets.<br></br>
 
 <h2>Initialization</h2>
+
+**Start Point**
 - Begin with each data point as a separate cluster.
 - Assign a representative point for each cluster.
 
@@ -22,6 +24,7 @@ The CURE (Clustering Using Representatives) algorithm is a hierarchical clusteri
 <br></br>
 
 <h2>Key Concepts</h2>
+
 **Representative Points:**
 - Each cluster is represented by a point, which is chosen as the centroid or mean of the points in the cluster.
 
@@ -36,6 +39,7 @@ The CURE (Clustering Using Representatives) algorithm is a hierarchical clusteri
 <br></br>
 
 <h2>Use Cases</h2>
+
 **Large Datasets:**
 - CURE is designed to efficiently handle large datasets that may not fit into memory.
 
@@ -47,6 +51,7 @@ The CURE (Clustering Using Representatives) algorithm is a hierarchical clusteri
 <br></br>
 
 <h2>Potential Parameters</h2>
+
 **Number of Clusters (k):**
 - The desired number of clusters.
 
