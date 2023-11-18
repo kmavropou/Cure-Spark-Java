@@ -1,13 +1,12 @@
 **CURE Algorithm Overview**
-The CURE (Clustering Using Representatives) algorithm is a hierarchical clustering method designed to efficiently cluster large datasets by iteratively merging data points into representative clusters. It starts by initializing each data point as a separate cluster and assigning a representative point for each cluster. Outliers are then removed to enhance the robustness of the clusters. The algorithm proceeds with hierarchical clustering, iteratively merging the closest clusters until a specified number is reached. After each merge, the representative points and sizes of the clusters are updated. CURE is particularly effective in handling large datasets, accommodating irregularly shaped clusters, and demonstrating robustness to outliers. Its key features include the use of representative points, hierarchical clustering, and a cluster shrinkage step to improve cluster separation. The provided Java implementation of the CURE algorithm allows users to efficiently apply this clustering approach to their datasets.
+The CURE (Clustering Using Representatives) algorithm is a hierarchical clustering method designed to efficiently cluster large datasets by iteratively merging data points into representative clusters. It starts by initializing each data point as a separate cluster and assigning a representative point for each cluster. Outliers are then removed to enhance the robustness of the clusters. The algorithm proceeds with hierarchical clustering, iteratively merging the closest clusters until a specified number is reached. After each merge, the representative points and sizes of the clusters are updated. CURE is particularly effective in handling large datasets, accommodating irregularly shaped clusters, and demonstrating robustness to outliers. Its key features include the use of representative points, hierarchical clustering, and a cluster shrinkage step to improve cluster separation. The provided Java implementation of the CURE algorithm allows users to efficiently apply this clustering approach to their datasets.<br></br>
 
-
-**Initialization**<br></br>
-Begin with each data point as a separate cluster.
-Assign a representative point for each cluster.
+**Initialization**
+- Begin with each data point as a separate cluster.
+- Assign a representative point for each cluster.
 
 **Outlier Removal:**
-Identify and remove a certain percentage of data points that are farthest from the cluster's representative point. This helps in reducing noise and outliers.
+- Identify and remove a certain percentage of data points that are farthest from the cluster's representative point. This helps in reducing noise and outliers.
 
 **Hierarchical Clustering:**
 Apply hierarchical clustering to the remaining data points. This involves iteratively merging the two closest clusters until a specified number of clusters is reached.
