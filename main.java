@@ -18,8 +18,11 @@ public class Main {
         try (SparkSession ss = SparkSession.builder().config(conf).appName("Cure Algorithm").master("local").getOrCreate();
              JavaSparkContext sc = JavaSparkContext.fromSparkContext(ss.sparkContext())) {
 
-            String files = "src/main/data/*.txt";
-            JavaRDD<String> lines = sc.textFile(files);
+            String projectRoot = System.getProperty("user.dir");
+            String dataPath = projectRoot + "/src/main/data/*.txt";
+            String predictionsPath = projectRoot + "/cure-algorithm/predictions.csv";
+
+            JavaRDD<String> lines = sc.textFile(dataPath);
 
             JavaRDD<Tuple2<Double, Double>> parsedData = lines.map(line -> line.split(","))
                     .map(array -> new Tuple2<>(parseDouble(array[0]), parseDouble(array[1])))
@@ -29,8 +32,7 @@ public class Main {
 
             sampledData.coalesce(1).saveAsTextFile("resultsjava");
 
-            String files2 = "cure-algorithm\\predictions.csv";
-            JavaRDD<String> lines2 = sc.textFile(files2);
+            JavaRDD<String> lines2 = sc.textFile(predictionsPath);
             String header = lines2.first();
             Broadcast<String> bheader = sc.broadcast(header);
             JavaRDD<String> lines2wh = lines2.filter(line -> !line.equals(bheader.value()));
