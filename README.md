@@ -9,49 +9,49 @@ The CURE (Clustering Using Representatives) algorithm is a hierarchical clusteri
 - Identify and remove a certain percentage of data points that are farthest from the cluster's representative point. This helps in reducing noise and outliers.
 
 **Hierarchical Clustering:**
-Apply hierarchical clustering to the remaining data points. This involves iteratively merging the two closest clusters until a specified number of clusters is reached.
+- Apply hierarchical clustering to the remaining data points. This involves iteratively merging the two closest clusters until a specified number of clusters is reached.
 
 **Representative Update:**
-Update the representative points for each cluster to be the mean of the points in that cluster.
+- Update the representative points for each cluster to be the mean of the points in that cluster.
 
 **Cluster Shrinkage:**
-Shrink the size of each cluster by a certain factor, typically by a percentage of the distance between the representative point and the farthest point in the cluster.
+- Shrink the size of each cluster by a certain factor, typically by a percentage of the distance between the representative point and the farthest point in the cluster.
 
 **Repeat:**
-Repeat the above steps until the desired number of clusters is reached.
-
+- Repeat the above steps until the desired number of clusters is reached.
+<br></br>
 
 **Key Concepts**
 **Representative Points:**
-Each cluster is represented by a point, which is chosen as the centroid or mean of the points in the cluster.
+- Each cluster is represented by a point, which is chosen as the centroid or mean of the points in the cluster.
 
 **Outlier Removal:**
-CURE removes a certain percentage of outliers to improve the quality of clusters.
+- CURE removes a certain percentage of outliers to improve the quality of clusters.
 
 **Hierarchical Clustering:**
-The algorithm employs hierarchical clustering to iteratively merge clusters until the desired number is reached.
+- The algorithm employs hierarchical clustering to iteratively merge clusters until the desired number is reached.
 
 **Cluster Shrinkage:**
-The size of each cluster is reduced to improve cluster separation.
-
+- The size of each cluster is reduced to improve cluster separation.
+<br></br>
 
 **Use Cases**
 **Large Datasets:**
-CURE is designed to efficiently handle large datasets that may not fit into memory.
+- CURE is designed to efficiently handle large datasets that may not fit into memory.
 
 **Irregularly Shaped Clusters:**
-CURE can be effective in identifying clusters of arbitrary shapes.
+- CURE can be effective in identifying clusters of arbitrary shapes.
 
 **Robustness to Outliers:**
-The outlier removal step enhances the algorithm's robustness to noisy data.
-
+- The outlier removal step enhances the algorithm's robustness to noisy data.
+<br></br>
 
 **Potential Parameters**
 **Number of Clusters (k):**
-The desired number of clusters.
+- The desired number of clusters.
 
 **Percentage of Outliers Removed:**
-The proportion of outliers to be removed during the outlier removal step.
+- The proportion of outliers to be removed during the outlier removal step.
 
 **Shrinkage Factor:**
-The factor by which the clusters are shrunk during the cluster shrinkage step.
+- The factor by which the clusters are shrunk during the cluster shrinkage step.
